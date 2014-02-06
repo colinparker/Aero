@@ -60,5 +60,45 @@ if (alpha==0.0):
     plt.contour(X,Y,psi,\
             levels=[-psistag,+psistag],\
             colors='#CD2305',linewidths=2,linestyles='solid')
-plt.show()
 
+sinks = -5.0     # strength of the sink
+xsink,ysink = 1.0,0.0   # location of the sink
+
+usink,vsink = getVelocity(sinks,xsink,ysink,X,Y)
+
+psisink = getStreamFunction(sinks,xsink,ysink,X,Y)
+
+u=ufreestream+usource+usink
+v=vfreestream+vsource+vsink
+psi=psifreestream+psisource+psisink
+
+size = 10
+plt.figure(figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
+plt.xlabel('x',fontsize=16)
+plt.ylabel('y',fontsize=16)
+plt.xlim(xStart,xEnd)
+plt.ylim(yStart,yEnd)
+plt.streamplot(X,Y,u,v,density=2.0,linewidth=1,arrowsize=1,arrowstyle='->')
+plt.scatter([xsource,xsink],[ysource,ysink],c='#CD2305',s=80,marker='o')
+if (alpha==0.0):
+    plt.contour(X,Y,psi,levels=[0.0],colors='#CD2305',linewidths=2,linestyles='solid')
+    
+    
+Cp=1.0-(u**2+v**2)/uinf**2
+
+size = 10
+plt.figure(figsize=(1.1*size,(yEnd-yStart)/(xEnd-xStart)*size))
+plt.xlabel('x',fontsize=16)
+plt.ylabel('y',fontsize=16)
+plt.xlim(xStart,xEnd)
+plt.ylim(yStart,yEnd)
+contf = plt.contourf(X,Y,Cp,levels=np.linspace(-2.0,1.0,100),extend='both')
+cbar = plt.colorbar(contf)
+cbar.set_label(r'$C_p$',fontsize=16)
+cbar.set_ticks([-2.0,-1.0,0.0,1.0])
+plt.scatter([xsource,xsink],[ysource,ysink],c='#CD2305',s=80,marker='o')
+plt.contour(X,Y,psi,\
+            levels=[0.0],\
+            colors='#CD2305',linewidths=2,linestyles='solid')
+        
+plt.show()
