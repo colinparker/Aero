@@ -21,7 +21,7 @@ def getStreamFunctionVortex(strength,xv,yv,X,Y):
     return psi
     
 ##for line at y=0  
-nV=1000  ##number of vorticies
+nV=10  ##number of vorticies
 dxv=0.1 ##spacing
 yvortex = 0
 ufield=0
@@ -34,7 +34,8 @@ for i in range(0,nV):
     ufield=ufield+uvortex
     vfield=vfield+vvortex
     psifield=psifield+psivortex
-
+XV=np.linspace(xStart, xEnd, nV)
+YV=np.linspace(0,0,nV)
 size = 10
 plt.figure(figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
 plt.xlabel('x',fontsize=16)
@@ -43,5 +44,7 @@ plt.xlim(xStart,xEnd)
 plt.ylim(yStart,yEnd)
 plt.streamplot(X,Y,ufield,vfield,\
                density=2.0,linewidth=1,arrowsize=1,arrowstyle='->')
-plt.scatter(xvortex,yvortex,c='#CD2305',s=80,marker='o');
+
+plt.scatter(XV,YV,c='#663399',s=10,marker='o');
 plt.show()
+print YV
